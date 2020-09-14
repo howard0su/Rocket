@@ -565,23 +565,13 @@ impl Config {
     /// ```
     #[cfg(feature = "tls")]
     pub fn set_tls(&mut self, certs_path: &str, key_path: &str) -> Result<()> {
-        use crate::http::tls::{load_certs, load_private_key, Error};
-
-        let pem_err = "malformed PEM file";
-
         // Load the certificates.
-        let certs = load_certs(self.root_relative(certs_path))
-            .map_err(|e| match e {
-                Error::Io(e) => ConfigError::Io(e, "tls.certs"),
-                _ => self.bad_type("tls", pem_err, "a valid certificates file")
-            })?;
+        // todo: validate certs
+        let certs = self.root_relative(certs_path);
 
         // And now the private key.
-        let key = load_private_key(self.root_relative(key_path))
-            .map_err(|e| match e {
-                Error::Io(e) => ConfigError::Io(e, "tls.key"),
-                _ => self.bad_type("tls", pem_err, "a valid private key file")
-            })?;
+        // todo: validate the private key
+        let key = self.root_relative(key_path);
 
         self.tls = Some(TlsConfig { certs, key });
         Ok(())
