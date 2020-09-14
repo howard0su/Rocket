@@ -21,6 +21,7 @@ all-features = true
 [features]
 default = ["secrets"]
 tls = ["rocket_http/tls"]
+opentls = ["rocket_http/opentls"]
 secrets = ["rocket_http/private-cookies"]
 
 [dependencies]

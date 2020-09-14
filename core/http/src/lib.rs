@@ -26,6 +26,14 @@ mod tls;
 pub use tls::bind_tls;
 
 #[doc(hidden)]
+#[cfg(feature = "opentls")]
+mod opentls;
+
+#[cfg(feature = "opentls")]
+pub use opentls::bind_tls;
+
+
+#[doc(hidden)]
 pub mod route;
 
 #[macro_use]
