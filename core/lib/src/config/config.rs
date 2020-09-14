@@ -568,10 +568,15 @@ impl Config {
         // Load the certificates.
         // todo: validate certs
         let certs = self.root_relative(certs_path);
+        if !certs.exists() {
+            return Err(ConfigError::BadFilePath(certs, "cert file doesn't exist."));
+        }
 
         // And now the private key.
-        // todo: validate the private key
         let key = self.root_relative(key_path);
+        if !key.exists() {
+            return Err(ConfigError::BadFilePath(key, "key file doesn't exist."));
+        }
 
         self.tls = Some(TlsConfig { certs, key });
         Ok(())
